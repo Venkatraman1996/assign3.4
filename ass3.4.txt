@@ -1,0 +1,23 @@
+1)
+HDFS Fedration:namedode contains the entire meta data log and is responsible for the functioning of the hdfs.it contains data on where
+               the files and directories are present in cluster.a request from the client for read or write is made to the namenode
+               In Hadoop 1.x there is only one NameNode allow only one Active NameNode in a cluster, which maintains a single namespace
+               Since Namenode has the entire metadata of HDFS in a big cluster Namenode can become huge in volume its memory becomes a limiting factor and will start to slow down
+               Hence Namenode cause performance issues
+ 	       when there are more data nodes with many files the NameNode memory will reach its limit and it becomes the limiting factor for cluster scaling
+
+
+HDFS availablity: if a cluster had a single NameNode and that machine or process became unavailable the entire cluster would be unavailable until the NameNode was either restarted 
+or started on a separate machine
+                  The HDFS NameNode  Availability feature enables you to run redundant NameNodes in the same cluster This eliminates the NameNode as a potential single point of failure 
+in an HDFS cluster
+	        when there is a failure there is a secondary name node which has the copy of the meta data which is updated with every event in the working namenode can be used to set up a 
+new name node.
+===============================================================================================================================================================================================================================
+
+2)
+HDFS handls failures while writing data:
+The pipeline is closed and any packets in the ack queue are added to the front of the data queue
+if the pipeline was created for a new block, the client abandons the block and asks the NameNode for a new block and a new list of DataNodes. The pipeline is reinitialized for the new block.
+if the pipeline was created to append to a block, the client rebuilds the pipeline with the remaining DataNodes and increments the block’s generation stamp.
+the failed nodes will be removed from the pipeline.replication of blocks is carried until the replication factor is reached.
